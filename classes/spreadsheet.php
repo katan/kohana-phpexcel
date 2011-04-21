@@ -34,19 +34,16 @@ class Spreadsheet
 	/**
 	 * Creates the spreadsheet with given or default settings
 	 * 
-	 * @param array $headers with optional parameters: title, subject, description, author
+	 * @param array $options with optional parameters: title, subject, description, author
 	 * @return void
 	 */
-	public function __construct($headers = array())
+	public function __construct($options = array())
 	{
-//		$headers = array_merge(array(
-//			'title'       => 'New Spreadsheet',
-//			'subject'     => 'New Spreadsheet',
-//			'description' => 'New Spreadsheet',
-//			'author'      => 'ClubSuntory',
-//		), $headers);
-		
+		/* PHP Excel integration */
+		require_once Kohana::find_file('vendor', 'phpexcel/1.7.6/Classes/PHPExcel');
+
 		$this->_spreadsheet = new PHPExcel();
+		$this->set_options($options);
 	}
 
 	/**
