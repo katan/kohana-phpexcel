@@ -28,22 +28,22 @@ class Spreadsheet
 	 * @param array $headers with optional parameters: title, subject, description, author
 	 * @return void
 	 */
-	public function __construct($headers=array())
+	public function __construct($headers = array())
 	{
 		$headers = array_merge(array(
-			'title'			=> 'New Spreadsheet',
-			'subject'		=> 'New Spreadsheet',
-			'description'	=> 'New Spreadsheet',
-			'author'		=> 'ClubSuntory',
+			'title'       => 'New Spreadsheet',
+			'subject'     => 'New Spreadsheet',
+			'description' => 'New Spreadsheet',
+			'author'      => 'ClubSuntory',
 		), $headers);
 		
 		$this->_spreadsheet = new PHPExcel();
 		// Set properties
 		$this->_spreadsheet->getProperties()
-			->setCreator( $headers['author'] )
-			->setTitle( $headers['title'] )
-			->setSubject( $headers['subject'] )
-			->setDescription( $headers['description'] );
+			->setCreator($headers['author'])
+			->setTitle($headers['title'])
+			->setSubject($headers['subject'])
+			->setDescription($headers['description']);
 	}
 
 	/**
@@ -78,33 +78,37 @@ class Spreadsheet
 	 * @param array of array( [row] => array([col]=>[value]) ) ie $arr[row][col] => value
 	 * @return void
 	 */
-	public function set_data(array $data, $multi_sheet=false)
+	public function set_data(array $data, $multi_sheet = FALSE)
 	{
-		//Single sheet ones can just dump everything to the current sheet
-		if ( !$multi_sheet )
+		// Single sheet ones can just dump everything to the current sheet
+		if ( ! $multi_sheet)
 		{
 			$sheet = $this->_spreadsheet->getActiveSheet();
 			$this->set_sheet_data($data, $sheet);
 		}
-		//Have to do a little more work with multi-sheet
+		// Have to do a little more work with multi-sheet
 		else
 		{
-			foreach ($data as $sheetname=>$sheetData)
+			foreach ($data as $sheetname => $sheetData)
 			{
 				$sheet = $this->_spreadsheet->createSheet();
 				$sheet->setTitle($sheetname);
 				$this->set_sheet_data($sheetData, $sheet);
 			}
-			//Now remove the auto-created blank sheet at start of XLS
+			// Now remove the auto-created blank sheet at start of XLS
 			$this->_spreadsheet->removeSheetByIndex(0);
 		}
 	}
 
 	protected function set_sheet_data(array $data, PHPExcel_Worksheet $sheet)
 	{
-		foreach ($data as $row =>$columns)
-			foreach ($columns as $column=>$value)
+		foreach ($data as $row => $columns)
+		{
+			foreach ($columns as $column => $value)
+			{
 				$sheet->setCellValueByColumnAndRow($column, $row, $value);
+			}
+		}
 	}
 
 	/**
@@ -113,17 +117,17 @@ class Spreadsheet
 	 * @param array $settings with optional parameters: format, path, name (no extension)
 	 * @return Path to spreadsheet
 	 */
-	public function save($settings=array())
+	public function save($settings = array())
 	{
 		$settings = array_merge(array(
-			'format'		=> 'Excel2007',
-			'path'			=> APPPATH.'assets/downloads/spreadsheets/',
-			'name'			=> 'NewSpreadsheet',
+			'format' => 'Excel2007',
+			'path'   => APPPATH.'assets/downloads/spreadsheets/',
+			'name'   => 'NewSpreadsheet',
 		), $settings);
-		
-		//Generate full path
+
+		// Generate full path
 		$settings['fullpath'] = $settings['path'].$settings['name'].'_'.time().'.'.$this->exts[$settings['format']];
-		
+
 		$writer = PHPExcel_IOFactory::createWriter($this->_spreadsheet, $settings['format']);
 
 		if ($settings['format'] == 'CSV')
@@ -141,29 +145,29 @@ class Spreadsheet
 	 * @param array $settings with optional parameters: format, name (no extension)
 	 * @return void
 	 */
-	public function send($settings=array())
+	public function send($settings = array())
 	{
 		$settings = array_merge(array(
-			'format'		=> 'Excel2007',
-			'name'			=> 'NewSpreadsheet',
+			'format' => 'Excel2007',
+			'name'   => 'NewSpreadsheet',
 		), $settings);
-		
+
 		$writer = PHPExcel_IOFactory::createWriter($this->_spreadsheet, $settings['format']);
-		
+
 		$ext = $this->exts[$settings['format']];
 		$mime = $this->mimes[$settings['format']];
-		
+
 		$request = Request::instance();
 		$request->headers['Content-Type'] = $mime;
 		$request->headers['Content-Disposition'] = 'attachment;filename="'.$settings['name'].'.'.$ext.'"';
 		$request->headers['Cache-Control'] = 'max-age=0';
 		$request->send_headers();
-		
+
 		if ($settings['format'] == 'CSV')
 		{
-			$writer->setUseBOM(true);
+			$writer->setUseBOM(TRUE);
 		}
-		
+
 		$writer->save('php://output');
 		exit;
 	}
