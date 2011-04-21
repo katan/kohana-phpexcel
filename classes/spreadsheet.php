@@ -175,11 +175,13 @@ class Spreadsheet
 		$ext = $this->exts[$settings['format']];
 		$mime = $this->mimes[$settings['format']];
 
-		$request = Request::instance();
-		$request->headers['Content-Type'] = $mime;
-		$request->headers['Content-Disposition'] = 'attachment;filename="'.$settings['name'].'.'.$ext.'"';
-		$request->headers['Cache-Control'] = 'max-age=0';
-		$request->send_headers();
+		$response = Request::current()->response();
+		$response->headers(array(
+			'Content-Type' => $mime,
+			'Content-Disposition' => 'attachment;filename="'.$settings['name'].'.'.$ext.'"',
+			'Cache-Control' => 'max-age=0',
+		));
+		$response->send_headers();
 
 		if ($settings['format'] == 'CSV')
 		{
