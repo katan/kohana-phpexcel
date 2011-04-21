@@ -21,6 +21,15 @@ class Spreadsheet
         'Excel5' 	=> 'application/vnd.ms-excel',
         'Excel2007' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     );
+	protected $options = array(
+		'title'       => 'New Spreadsheet',
+		'subject'     => 'New Spreadsheet',
+		'description' => 'New Spreadsheet',
+		'author'      => 'ClubSuntory',
+		'format'      => 'Excel2007',
+		'path'        => 'assets/downloads/spreadsheets/',
+		'name'        => 'NewSpreadsheet',
+	);
 
 	/**
 	 * Creates the spreadsheet with given or default settings
@@ -30,20 +39,14 @@ class Spreadsheet
 	 */
 	public function __construct($headers = array())
 	{
-		$headers = array_merge(array(
-			'title'       => 'New Spreadsheet',
-			'subject'     => 'New Spreadsheet',
-			'description' => 'New Spreadsheet',
-			'author'      => 'ClubSuntory',
-		), $headers);
+//		$headers = array_merge(array(
+//			'title'       => 'New Spreadsheet',
+//			'subject'     => 'New Spreadsheet',
+//			'description' => 'New Spreadsheet',
+//			'author'      => 'ClubSuntory',
+//		), $headers);
 		
 		$this->_spreadsheet = new PHPExcel();
-		// Set properties
-		$this->_spreadsheet->getProperties()
-			->setCreator($headers['author'])
-			->setTitle($headers['title'])
-			->setSubject($headers['subject'])
-			->setDescription($headers['description']);
 	}
 
 	/**
@@ -100,6 +103,22 @@ class Spreadsheet
 		}
 	}
 
+	protected function set_options($options)
+	{
+		$this->options = Arr::merge($this->options, $options);
+		return $this;
+	}
+
+	protected function set_properties()
+	{
+		$this->_spreadsheet->getProperties()
+			->setCreator($this->options['author'])
+			->setTitle($this->options['title'])
+			->setSubject($this->options['subject'])
+			->setDescription($this->options['description']);
+		return $this;
+	}
+
 	protected function set_sheet_data(array $data, PHPExcel_Worksheet $sheet)
 	{
 		foreach ($data as $row => $columns)
@@ -119,11 +138,10 @@ class Spreadsheet
 	 */
 	public function save($settings = array())
 	{
-		$settings = array_merge(array(
-			'format' => 'Excel2007',
-			'path'   => APPPATH.'assets/downloads/spreadsheets/',
-			'name'   => 'NewSpreadsheet',
-		), $settings);
+		// Set document properties
+		$this->set_properties();
+
+		$settings = array_merge($this->options, $settings);
 
 		// Generate full path
 		$settings['fullpath'] = $settings['path'].$settings['name'].'_'.time().'.'.$this->exts[$settings['format']];
@@ -147,10 +165,10 @@ class Spreadsheet
 	 */
 	public function send($settings = array())
 	{
-		$settings = array_merge(array(
-			'format' => 'Excel2007',
-			'name'   => 'NewSpreadsheet',
-		), $settings);
+		// Set document properties
+		$this->set_properties();
+
+		$settings = array_merge($this->options, $settings);
 
 		$writer = PHPExcel_IOFactory::createWriter($this->_spreadsheet, $settings['format']);
 
