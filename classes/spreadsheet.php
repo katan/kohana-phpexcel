@@ -8,7 +8,6 @@
  */
 class Spreadsheet
 {
-	private $_spreadsheet;
 	private $exts = array(
 		'CSV'		=> 'csv',
 		'PDF'		=> 'pdf',
@@ -30,6 +29,10 @@ class Spreadsheet
 		'path'        => 'assets/downloads/spreadsheets/',
 		'name'        => 'NewSpreadsheet',
 	);
+	/**
+	 * @var PHPExcel
+	 */
+	protected $_spreadsheet;
 
 	/**
 	 * Creates the spreadsheet with given or default settings
