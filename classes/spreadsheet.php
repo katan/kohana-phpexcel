@@ -45,7 +45,7 @@ class Spreadsheet
 			->setSubject( $headers['subject'] )
 			->setDescription( $headers['description'] );
 	}
-	
+
 	/**
 	 * Set active sheet index
 	 * 
@@ -56,7 +56,7 @@ class Spreadsheet
 	{
 		$this->_spreadsheet->setActiveSheetIndex($index);
 	}
-	
+
 	/**
 	 * Get the currently active sheet
 	 * 
@@ -106,7 +106,7 @@ class Spreadsheet
 			foreach ($columns as $column=>$value)
 				$sheet->setCellValueByColumnAndRow($column, $row, $value);
 	}
-	
+
 	/**
 	 * Writes spreadsheet to file
 	 * 
@@ -134,7 +134,7 @@ class Spreadsheet
 
 		return $settings['fullpath'];
 	}
-	
+
 	/**
 	 * Send spreadsheet to browser
 	 * 
@@ -167,5 +167,5 @@ class Spreadsheet
 		$writer->save('php://output');
 		exit;
 	}
-	
+
 }
