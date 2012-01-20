@@ -15,6 +15,12 @@ Place the module in the modules/phpexcel.
 
 The PHPExcel library (version 1.7.6) is now linked as a git submodule to vendor/phpexcel relative to the phpexcel module installation folder.
 
+To initialize git submodules try the following from the repository root
+
+    git submodule update --init --recursive
+
+Further information for git submodules within submodules on [Stackoverflow]
+
 In the application/bootstrap.php add module loading
     
     Kohana::modules(array(
@@ -53,3 +59,6 @@ Creating a Spreadsheet
     
     $ws->set_data($sh, false);
     $ws->send(array('name'=>'report', 'format'=>'Excel5'));
+    
+
+[1]: http://stackoverflow.com/questions/1535524/git-submodule-inside-of-a-submodule        "Stackoverflow"
