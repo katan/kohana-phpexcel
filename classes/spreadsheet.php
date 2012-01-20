@@ -43,7 +43,7 @@ class Spreadsheet
 	public function __construct($options = array())
 	{
 		/* PHP Excel integration */
-		require_once Kohana::find_file('vendor', 'phpexcel/PHPExcel');
+		require_once Kohana::find_file('vendor', 'phpexcel/Classes/PHPExcel');
 
 		$this->_spreadsheet = new PHPExcel();
 		$this->set_options($options);
