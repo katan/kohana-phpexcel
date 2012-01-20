@@ -2,7 +2,7 @@
 
 *PHPExcel module for Kohana 3.1.x*
 
-- **Module URL:** <http://github.com/czukowski/kohana-phpexcel>
+- **Module URL:** <http://github.com/rafsoaken/kohana-phpexcel>
 - **Compatible Kohana Version(s):** 3.1.x, 3.2.x
 
 ## Description
@@ -11,15 +11,28 @@ Kohana framework helper class to make spreadsheet creation easier
 
 ## Installation
 
-Place the module in the modules/phpexcel.
 
+
+Via git submodules (recommended):
 The PHPExcel library (version 1.7.6) is now linked as a git submodule to vendor/phpexcel relative to the phpexcel module installation folder.
+Clone the repository via:
 
-To initialize git submodules try the following from the repository root
+    git submodule add git://github.com/rafsoaken/kohana-phpexcel.git modules/phpexcel
+    git submodule init
+
+Then update the git submodule and the contained vendor/phpexcel sub-submodule from the repository root:
 
     git submodule update --init --recursive
 
-Further information for git submodules within submodules on [Stackoverflow] [1]
+If you followed the commands exactly, all contents should have been cloned by now. Further information for git submodules within submodules on [Stackoverflow] [1]
+Finally load the module in your application (see below).
+
+Via ZIP file download:
+
+Download and extract the zip file. Place the phpexcel module in modules/phpexcel.
+Because the git submodule in the vendor/phpexcel folder is not included in the download, please got and get it at
+<https://github.com/rafsoaken/phpexcel>, then replace the empty vendor/phpexcel folder with it.
+Finally load the module in your application as follows:
 
 In the application/bootstrap.php add module loading
     
