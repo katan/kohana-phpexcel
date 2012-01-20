@@ -13,7 +13,7 @@ Kohana framework helper class to make spreadsheet creation easier
 
 
 
-Via git submodules (recommended):
+*Via git submodules (recommended):*
 The PHPExcel library (version 1.7.6) is now linked as a git submodule to vendor/phpexcel relative to the phpexcel module installation folder.
 Clone the repository via:
 
@@ -24,14 +24,14 @@ Then update the git submodule and the contained vendor/phpexcel sub-submodule fr
 
     git submodule update --init --recursive
 
-If you followed the commands exactly, all contents should have been cloned by now. Further information for git submodules within submodules on [Stackoverflow] [1]
+If you followed the commands exactly, all contents should have been cloned by now. Further information for git submodules within submodules on [Stackoverflow] [1].
 Finally load the module in your application (see below).
 
-Via ZIP file download:
-
+*Via ZIP file download:*
 Download and extract the zip file. Place the phpexcel module in modules/phpexcel.
-Because the git submodule in the vendor/phpexcel folder is not included in the download, please got and get it at
-<https://github.com/rafsoaken/phpexcel>, then replace the empty vendor/phpexcel folder with it.
+Because the git submodule in the vendor/phpexcel folder is not included in the download, please go and get it at
+<https://github.com/rafsoaken/phpexcel> (again, the zip download is what you want), then replace the empty vendor/phpexcel folder with it.
+
 Finally load the module in your application as follows:
 
 In the application/bootstrap.php add module loading
