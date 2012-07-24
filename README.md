@@ -1,15 +1,15 @@
 # phpexcel
 
-*PHPExcel module for Kohana 3.1.x, 3.2.x*
+*PHPExcel module for Kohana 3.2.x*
 
 - **Module URL:** <http://github.com/rafsoaken/kohana-phpexcel>
-- **Compatible Kohana Version(s):** 3.1.x, 3.2.x
+- **Compatible Kohana Version(s):** 3.2.x (not tested in 3.1.x)
 
 ## Description
 
 Kohana framework helper class to make spreadsheet creation easier
 Added in this fork:
-- load spreadsheet from csv and excel5 y excel2007
+- read spreadsheet from csv, excel5 and excel2007
 
 ## Installation
 
@@ -80,5 +80,17 @@ Creating a Spreadsheet
     $spreadsheet->set_data($sh, false);
     $spreadsheet->send();
 
+Reading a Spreadsheet
+
+    $spreadsheet = Spreadsheet::factory(
+              array(
+                        'filename' => 'files/asociacion.xlsx'
+              ), FALSE)
+              ->load()
+              ->read();
+    foreach ($spreadsheet as $v)
+    {
+              echo $v['A'].',';
+    }
 
 [1]: http://stackoverflow.com/questions/1535524/git-submodule-inside-of-a-submodule        "Stackoverflow"
