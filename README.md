@@ -84,7 +84,7 @@ Reading a Spreadsheet
 
     $spreadsheet = Spreadsheet::factory(
               array(
-                        'filename' => 'files/asociacion.xlsx'
+                        'filename' => 'spreadsheet.xlsx'
               ), FALSE)
               ->load()
               ->read();
