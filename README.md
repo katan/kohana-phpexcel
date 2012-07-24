@@ -7,7 +7,7 @@
 
 ## Description
 
-Kohana framework helper class to make spreadsheet creation easier
+Kohana framework helper class to make and read spreadsheet easier
 Added in this fork:
 - read spreadsheet from csv, excel5 and excel2007
 
