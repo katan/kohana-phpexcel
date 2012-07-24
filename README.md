@@ -8,6 +8,8 @@
 ## Description
 
 Kohana framework helper class to make spreadsheet creation easier
+Added in this fork:
+- load spreadsheet from csv and excel5 y excel2007
 
 ## Installation
 
@@ -45,23 +47,28 @@ In the application/bootstrap.php add module loading
 
 Creating a Spreadsheet
 
-    $ws = new Spreadsheet(array(
-    	'author'       => 'Kohana-PHPExcel',
-    	'title'	       => 'Report',
-    	'subject'      => 'Subject',
-    	'description'  => 'Description',
+    $spreadsheet = Spreadsheet::factory(array(
+          'author'  => 'Kohana-PHPExcel',
+          'title'      => 'Report',
+          'subject' => 'Subject',
+          'description'  => 'Description',
+          'path' => '/',
+          'name' => 'report'
     ));
-    
-    $ws->set_active_sheet(0);
-    $as = $ws->get_active_sheet();
-    $as->setTitle('Report');
-    
+    $spreadsheet->set_active_sheet(0);
+    $as = $spreadsheet->get_active_sheet();
+    $as->setTitle('Consumos');
     $as->getDefaultStyle()->getFont()->setSize(9);
-    
-    $as->getColumnDimension('A')->setWidth(7);
-    $as->getColumnDimension('B')->setWidth(40);
-    $as->getColumnDimension('C')->setWidth(12);
-    $as->getColumnDimension('D')->setWidth(10);
+
+    $as->getStyle('A1:G1')->applyFromArray(Kohana::$config->load('styles.header'));
+    $as->getRowDimension(1)->setRowHeight(24);
+    $as->getStyle('A1:G1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+    $as->getStyle('A1:G1')->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+
+    $as->getColumnDimension('A')->setWidth(8);
+    $as->getColumnDimension('B')->setWidth(12);
+    $as->getColumnDimension('C')->setWidth(46);
+    $as->getColumnDimension('D')->setWidth(36);
     
     $sh = array(
     	1 => array('Day','User','Count','Price'),
@@ -70,8 +77,8 @@ Creating a Spreadsheet
     	4 => array(3, 'Anny', 1, 214)
     );
     
-    $ws->set_data($sh, false);
-    $ws->send(array('name'=>'report', 'format'=>'Excel5'));
+    $spreadsheet->set_data($sh, false);
+    $spreadsheet->send();
 
 
 [1]: http://stackoverflow.com/questions/1535524/git-submodule-inside-of-a-submodule        "Stackoverflow"
