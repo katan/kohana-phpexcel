@@ -92,6 +92,7 @@ class Spreadsheet {
           
           /**
            * Creates a PHPExcel instance to load document for read
+           * @param array $csv_values define delimiter and line ending
            * @return object PHPExcel 
            */
           public function load( $csv_values = Array('delimiter' => ';', 'lineEnding' => "\r\n"))
@@ -101,9 +102,9 @@ class Spreadsheet {
                     switch ($this->options['format'])
                     {
                               case 'CSV':
-                                        $this->_spreadsheet->setDelimiter($values['delimiter']);
+                                        $this->_spreadsheet->setDelimiter($csv_values['delimiter']);
                                         //Spreadsheet::$_spreadsheet->setEnclosure('');
-                                        $this->_spreadsheet->setLineEnding($values['lineEnding']);
+                                        $this->_spreadsheet->setLineEnding($csv_values['lineEnding']);
                                         break;
                               case 'Excel2007' OR 'Excel5':
                                         $this->_spreadsheet->setReadDataOnly(true);
@@ -115,7 +116,7 @@ class Spreadsheet {
           /**
            * Return Array with all data from the first spreadsheet
            * @param array $valuetypes
-           * @param array $skip
+           * @param array $skip content only numbers
            * @param boolean $emptyvalues
            * @return array 
            * 
@@ -125,6 +126,10 @@ class Spreadsheet {
            */
           public function read($valuetypes = Array(), $skip = Array(), $emptyvalues = FALSE)
           {
+                    /**
+                     *@var array $array_data save parsed data from spreadsheet
+                     */
+                    $array_data = array();
                     foreach ($this->_spreadsheet->load($this->options['filename'])->getActiveSheet()->getRowIterator() as $i => $row)
                     {
                               
