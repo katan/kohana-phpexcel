@@ -1,3 +1,0 @@
-[submodule "vendor/phpexcel"]
-	path = vendor/phpexcel
-	url = git@github.com:rafsoaken/phpexcel.git
