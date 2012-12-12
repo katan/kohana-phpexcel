@@ -336,7 +336,7 @@ class Spreadsheet {
 
         //if 'path' not set, use temp dir instead
         if ($this->options['path'] === NULL)
-            $this->options['path'] = sys_get_temp_dir();
+            $this->options['path'] = sys_get_temp_dir() . DIRECTORY_SEPARATOR;
 
         //Generate full path
         $fullpath = $this->options['path'] . $this->options['name'] . '.' . $this->exts[$this->options['format']];
