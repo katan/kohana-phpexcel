@@ -166,7 +166,7 @@ class Worksheet {
     public function formats($key = NULL, $value = NULL) {
         return $this->_get_set('formats', $key, $value);
     }
-    
+
     /**
      * Column types getter/setter
      */
@@ -182,7 +182,6 @@ class Worksheet {
     public function render() {
 
         // Set worksheet header
-
         $this->_set_row(1, $this->columns, TRUE);
 
         //set header style
@@ -193,12 +192,10 @@ class Worksheet {
         $column_dim = PHPExcel_Cell::stringFromColumnIndex(count($this->columns) - 1);
         $this->_worksheet->setSharedStyle($obj_style, 'A1:' . $column_dim . '1');
 
-        $offset = 2;
-
         // Set data
         $rows = 0;
         foreach ($this->data as $row => $data) {
-            $this->_set_row($row + $offset, $data);
+            $this->_set_row($row + 2, $data);
             $rows++;
         }
 
@@ -209,7 +206,7 @@ class Worksheet {
 
             $format = Arr::get($this->formats, $key);
             if ($format !== NULL) {
-                $this->_worksheet->getStyle($column_dim . $offset . ':' . $column_dim . ($offset + $rows))
+                $this->_worksheet->getStyle($column_dim . 2 . ':' . $column_dim . (2 + $rows))
                         ->getNumberFormat()
                         ->setFormatCode($format);
             }

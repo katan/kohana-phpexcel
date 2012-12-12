@@ -284,9 +284,16 @@ class Spreadsheet {
         //Single sheet ones can just dump everything to the current sheet
         if (!$multi_sheet) {
             $worksheet = $this->get_active_worksheet();
-            $worksheet->columns($data['names']);
-            $worksheet->types($data['types']);
-            $worksheet->formats($data['formats']);
+
+            if (isset($data['columns']))
+                $worksheet->columns($data['columns']);
+
+            if (isset($data['types']))
+                $worksheet->types($data['types']);
+
+            if (isset($data['formats']))
+                $worksheet->formats($data['formats']);
+
             $worksheet->data($data['rows']);
             $worksheet->render();
         }
@@ -297,9 +304,16 @@ class Spreadsheet {
 
                 $worksheet = $this->create_worksheet();
                 $worksheet->title($sheetname);
-                $worksheet->columns($sheet_data['names']);
-                $worksheet->types($data['types']);
-                $worksheet->formats($data['formats']);
+
+                if (isset($sheet_data['columns']))
+                    $worksheet->columns($sheet_data['columns']);
+
+                if (isset($sheet_data['types']))
+                    $worksheet->types($sheet_data['types']);
+
+                if (isset($sheet_data['formats']))
+                    $worksheet->formats($sheet_data['formats']);
+
                 $worksheet->data($sheet_data['rows']);
                 $worksheet->render();
             }
@@ -319,6 +333,10 @@ class Spreadsheet {
         // Set document properties
         $this->set_properties();
         $writer = PHPExcel_IOFactory::createWriter($this->_spreadsheet, $this->options['format']);
+
+        //if 'path' not set, use temp dir instead
+        if ($this->options['path'] === NULL)
+            $this->options['path'] = sys_get_temp_dir();
 
         //Generate full path
         $fullpath = $this->options['path'] . $this->options['name'] . '.' . $this->exts[$this->options['format']];
