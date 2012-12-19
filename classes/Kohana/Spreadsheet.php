@@ -353,7 +353,7 @@ class Kohana_Spreadsheet {
      * @return void 
      */
     public function send() {
-        $response = Request::current()->response();
+        $response = Response::factory();
         $response->send_file(
                 $this->save(), $this->options['name'] . '.' . $this->exts[$this->options['format']], // filename
                 array(
