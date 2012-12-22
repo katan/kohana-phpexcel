@@ -270,7 +270,7 @@ class Kohana_Worksheet {
         foreach (array_keys($this->columns) as $key) {
             $value = NULL;
             if (is_array($data)) {
-                $value = $data[$key];
+                $value = isset($data[$key]) ? $data[$key] : '';
             } elseif (is_object($data)) {
                 if (method_exists($data, $key)) {
                     $value = $data->$key();
