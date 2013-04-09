@@ -284,8 +284,22 @@ class Kohana_Worksheet {
                 $type = Arr::get($this->types, $key);
             }
 
-            // Set cell value
             $coordinates = PHPExcel_Cell::stringFromColumnIndex($column) . $row;
+	    
+	    // Options
+	    if(is_array($value)){
+		    $options = array_slice($value, 1);
+		    
+		    $validation  = $this->_worksheet->getCell($coordinates)->getDataValidation();
+		    $validation->setType(PHPExcel_Cell_DataValidation::TYPE_LIST);
+		    $validation->setAllowBlank(TRUE);
+		    $validation->setShowDropDown(TRUE);
+		    $validation->setFormula1('"'.join(',', $options).'"');
+		    
+		    $value = $value[0];
+	    }
+	    
+	    // Set cell value
             if ($type !== NULL) {
                 $this->_worksheet->setCellValueExplicit($coordinates, $value, $type);
             } else {
